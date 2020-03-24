@@ -4,5 +4,5 @@ const movies = require("../routes/movies");
 module.exports = function(app) {
     app.use("/api/users", users);
     app.use("/api/genres", genres);
-    //app.user("/api/movies")
+    app.use("/api/movies", movies);
 }

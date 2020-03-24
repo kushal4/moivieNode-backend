@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./Index");
-
+const MovieDetails = require("./moviedetails");
 const Model = Sequelize.Model;
 class Movie extends Model {}
 
@@ -14,8 +14,16 @@ Movie.init({
         type: Sequelize.INTEGER,
         allowNull: false
     },
+    original_title: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     title: {
         type: Sequelize.STRING,
+        allowNull: false
+    },
+    release_date: {
+        type: Sequelize.DATE,
         allowNull: false
     },
     image_url: {
@@ -28,7 +36,8 @@ Movie.init({
     },
     watch_state: {
         type: Sequelize.ENUM,
-        allowNull: false
+        allowNull: false,
+        values: ['watched', 'not_watched', 'watch_later']
     }
 }, {
     underscore: true,
@@ -36,6 +45,10 @@ Movie.init({
     sequelize,
     modelName: 'movies'
         // options
+});
+
+Movie.hasOne(MovieDetails, {
+    foreignKey: "movie_id"
 });
 
 module.exports = Movie;

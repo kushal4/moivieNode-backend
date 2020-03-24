@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./Index");
+const Movie = require("./movie");
 
 const Model = Sequelize.Model;
 class MovieDetails extends Model {}
@@ -27,5 +28,7 @@ MovieDetails.init({
     modelName: 'movie_details'
         // options
 });
+
+//MovieDetails.belongsTo(Movie);
 
 module.exports = MovieDetails;
