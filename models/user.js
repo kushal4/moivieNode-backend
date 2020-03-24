@@ -20,7 +20,7 @@ class User extends Model {
 
         let privateKEY = fs.readFileSync('./private.key', 'utf8');
 
-        let token = jwt.sign({ id: this.id, name: this.name }, privateKEY);
+        let token = jwt.sign({ name: this.name, isAdmin: this.isAdmin }, privateKEY);
         return token;
     }
 }
@@ -42,6 +42,10 @@ User.init({
         type: Sequelize.STRING,
         allowNull: false
     },
+    isAdmin: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    },
     created_at: {
         type: Sequelize.DATE,
         defaultValue: Date.now
@@ -49,7 +53,7 @@ User.init({
     updated_at: {
         type: Sequelize.DATE,
         defaultValue: Date.now
-    }
+    },
 }, {
     timestamps: false,
     sequelize,
