@@ -6,20 +6,34 @@ class MovieController {
     async moviesByGenre(req, res) {
         let genreId = req.params.id;
         let movies = null;
+        let pagination_obj = this.fetchPaginationObj(req);
+        console.log(pagination_obj);
         let findOption = {
+            ...pagination_obj,
             include: MovieDetails
         }
+
+        let countOption = {
+            include: MovieDetails
+        }
+
         if (genreId != -1) {
             //console.log("valid genre");
             findOption["where"] = {
                 "genre_id": genreId
             }
+            countOption["where"] = {
+                "genre_id": genreId
+            }
         }
         try {
+            let total_pages = (await Movie.count(countOption));
+            total_pages = total_pages / (pagination_obj["limit"]);
             let movies_obj = await this.fetchMoviesByGenreId(genreId, findOption)
             movies = {
                     code: 200,
                     counts: movies_obj.length,
+                    total_pages,
                     results: movies_obj
                 }
                 // console.log(movies_obj);
@@ -33,6 +47,18 @@ class MovieController {
             }
         }
 
+    }
+
+    fetchPaginationObj(req) {
+        //console.log(req.query);
+        let page = req.query.page ? req.query.page : 1;
+        let pageSize = req.query.pageSize ? req.query.pageSize : 5;
+        const offset = (page - 1) * parseInt(pageSize);
+        const limit = parseInt(pageSize);
+        return {
+            offset,
+            limit
+        }
     }
 
     async fetchMoviesByGenreId(genreId, findOption) {

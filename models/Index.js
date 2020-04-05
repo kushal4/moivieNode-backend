@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 
-sequelize = new Sequelize("MoviesClub", "root", "1234", {
+sequelize = new Sequelize("moviesClub", "root", "1234", {
     'host': "127.0.0.1",
     'dialect': "mysql",
-    'port': "3306",
+    'port': "3307",
     'logging': false
 })
 

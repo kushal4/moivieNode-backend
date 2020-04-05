@@ -44,7 +44,8 @@ User.init({
     },
     isAdmin: {
         type: Sequelize.BOOLEAN,
-        allowNull: false
+        allowNull: false,
+        defaultValue: 0
     },
     created_at: {
         type: Sequelize.DATE,
